@@ -18,9 +18,7 @@ public class Calculator {
         value *= input;
     }
     public void divide(int input){
-        //avoid divide by 0
-        if (input != 0)
-            value /= input;
+        value /= input;
     }
     public void mod(int input){
         value %= input;

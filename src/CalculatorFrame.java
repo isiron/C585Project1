@@ -48,24 +48,14 @@ public class CalculatorFrame extends JFrame {
     private static final int FRAME_WIDTH = 500;
     private static final int FRAME_HEIGHT = 500;
     private static final int FIELD_LENGTH = 10;
-    private static final int MODE_NORM = 0;
-    private static final int MODE_PLUS = 1;
-    private static final int MODE_MINUS = 2;
-    private static final int MODE_DIVIDE = 3;
-    private static final int MODE_MULTIPLY = 4;
-    private static final int MODE_MOD = 5;
-    private static final int MODE_EQUALS = 8;
 
-    private Calculator calc;
+    private CalculatorModel calcModel;
     private ActionListener mouseListener;
     private KeyListener keyListener;
-    private int currentMode;
-    private int input;
 
 
     public CalculatorFrame(){
-        calc = new Calculator();
-        currentMode = MODE_NORM;
+        calcModel = new CalculatorModel(this);
         buildMenu();
         buildButtons();
         buildPanel();
@@ -79,7 +69,7 @@ public class CalculatorFrame extends JFrame {
         mouseListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleAction(e.getActionCommand());
+                calcModel.handleAction(e.getActionCommand());
                 panel.requestFocus();
             }
         };
@@ -106,10 +96,10 @@ public class CalculatorFrame extends JFrame {
             public void keyPressed(KeyEvent e) {
                 //if backspace is hit (key code 8) then interpret that as a C for clearing
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
-                    handleAction("Back");
+                    calcModel.handleAction("Back");
                 else if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                    handleAction("=");
-                else handleAction("" + e.getKeyChar());
+                    calcModel.handleAction("=");
+                else calcModel.handleAction("" + e.getKeyChar());
             }
 
             @Override
@@ -118,143 +108,7 @@ public class CalculatorFrame extends JFrame {
             }
         };
 
-
         panel.addKeyListener(keyListener);
-    }
-
-    private void handleAction(String action)
-    {
-        switch (action){
-            case "-":
-                updateLabel(action);
-                currentMode = MODE_MINUS;
-                break;
-            case "+":
-                updateLabel(action);
-                currentMode = MODE_PLUS;
-                break;
-            case "*":
-                updateLabel(action);
-                currentMode = MODE_MULTIPLY;
-                break;
-            case "/":
-                updateLabel(action);
-                currentMode = MODE_DIVIDE;
-                break;
-            case "%":
-                updateLabel(action);
-                currentMode = MODE_MOD;
-                break;
-            case "C":
-                reset();
-                break;
-            case "c":
-                reset();
-                break;
-            case "CE":
-                textField.setText("0");
-                break;
-            case "Back":
-                deleteTrailingChar();
-                break;
-            case "=":
-                calculate();
-                currentMode = MODE_EQUALS;
-                workingLabel.setText("");
-                textField.setText("" + calc.getValue());
-                break;
-            default:
-                inputToTextBox(action);
-        }
-    }
-
-    private void inputToTextBox(String numberToParse){
-        //try to parse an int, if fail just ignore it, wasn't valid input
-        try {
-            input = Integer.parseInt(numberToParse);
-
-            //if the box is empty or 0, replace the 0 with the number, else append the number to the end of the current text
-            if (textField.getText().equals("") || textField.getText().equals("0") || currentMode == MODE_EQUALS) {
-                if(currentMode == MODE_EQUALS)
-                    currentMode = MODE_NORM;
-                textField.setText("" + input);
-            }
-            else
-                textField.setText(textField.getText() + input);
-        } catch (NumberFormatException nfe) {
-        }
-    }
-
-    private void deleteTrailingChar(){
-        //if not already 0 or empty
-        if (!textField.getText().equals("") || !textField.getText().equals("0")) {
-            //if it is already a single digit number like 5 then set it to 0. Else delete the trailing number
-            if (textField.getText().length() <= 1) {
-                textField.setText("0");
-            }
-            else{
-                //set text to current substring of current text, starting at position 0 (head) and ending
-                //at 1 position before the final character
-                textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
-            }
-        }
-    }
-
-    //takes a current stored value and does appropriate math on it depending on mode using the value in the textField
-    private void calculate(){
-        try {
-            input = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException nfe) {
-        }
-        switch (currentMode){
-            case MODE_PLUS:
-                calc.plus(input);
-                break;
-            case MODE_MINUS:
-                calc.minus(input);
-                break;
-            case MODE_DIVIDE:
-                if(input == 0)
-                    JOptionPane.showMessageDialog(this, "Cannot divide by 0");
-                else
-                calc.divide(input);
-                break;
-            case MODE_MULTIPLY:
-                calc.multiply(input);
-                break;
-            case MODE_MOD:
-                calc.mod(input);
-                break;
-            default: break;
-        }
-    }
-
-    private void updateLabel(String mode){
-        //if label is empty then replace it, else work with value already stored
-        if(workingLabel.getText().equals("")) {
-            workingLabel.setText(textField.getText() + " " + mode + " ");
-
-            try {
-                calc.setValue(Integer.parseInt(textField.getText()));
-            }
-            catch (NumberFormatException nfe){
-            }
-
-            textField.setText("0");
-        }
-        else{
-            //if say it is 6 + [6] when you hit - the mode with change,
-            calculate();
-            workingLabel.setText(calc.getValue() + " " + mode + " ");
-            textField.setText("0");
-        }
-    }
-
-    private void reset(){
-        currentMode = MODE_NORM;
-        calc.resetValue();
-        workingLabel.setText("");
-        textField.setText("" + calc.getValue());
     }
 
     private void buildMenu(){
@@ -322,5 +176,23 @@ public class CalculatorFrame extends JFrame {
         setVisible(true);
         add(panel);
         panel.requestFocus();
+    }
+
+    public String getTextField()
+    {
+        return textField.getText();
+    }
+
+    public String getWorkingLabel()
+    {
+        return workingLabel.getText();
+    }
+
+    public void setTextField(String text){
+        textField.setText(text);
+    }
+
+    public void setWorkingLabel(String text){
+        workingLabel.setText(text);
     }
 }
