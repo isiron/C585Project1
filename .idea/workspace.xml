@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28487634-61af-4707-a7aa-c8c2b293dfc3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculator.java" afterPath="$PROJECT_DIR$/src/Calculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CalculatorFrame.java" afterPath="$PROJECT_DIR$/src/CalculatorFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CalculatorModel.java" afterPath="$PROJECT_DIR$/src/CalculatorModel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -46,8 +43,8 @@
       <file leaf-file-name="CalculatorModel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/CalculatorModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-250">
-              <caret line="127" column="69" lean-forward="false" selection-start-line="127" selection-start-column="69" selection-end-line="127" selection-end-column="69" />
+            <state relative-caret-position="226">
+              <caret line="161" column="5" lean-forward="false" selection-start-line="161" selection-start-column="5" selection-end-line="161" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -421,7 +418,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1382" height="744" extended-state="0" />
+    <frame x="0" y="0" width="1382" height="744" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -572,8 +569,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CalculatorModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-250">
-          <caret line="127" column="69" lean-forward="false" selection-start-line="127" selection-start-column="69" selection-end-line="127" selection-end-column="69" />
+        <state relative-caret-position="226">
+          <caret line="161" column="5" lean-forward="false" selection-start-line="161" selection-start-column="5" selection-end-line="161" selection-end-column="5" />
           <folding />
         </state>
       </provider>

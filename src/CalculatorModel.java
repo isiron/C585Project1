@@ -160,5 +160,4 @@ public class CalculatorModel {
         cFrame.setWorkingLabel("");
         cFrame.setTextField("" + calc.getValue());
     }
-
 }
