@@ -44,6 +44,7 @@ public class CalculatorFrame extends JFrame {
     private JMenuItem exit;
     private JMenuItem about;
 
+    //test change
     private static final int FRAME_WIDTH = 500;
     private static final int FRAME_HEIGHT = 500;
     private static final int FIELD_LENGTH = 10;
