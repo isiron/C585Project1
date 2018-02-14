@@ -1,5 +1,8 @@
-/**
- * Created by My on 2/11/2018.
+/*
+ * Name: Ivan Suarez
+ * Date: 2/11/2018
+ * Class name: Calculator.java
+ * Purpose: Taking in values and calculating results based on method, storing the value
  */
 public class Calculator {
     private int value;

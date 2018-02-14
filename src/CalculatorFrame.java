@@ -1,4 +1,3 @@
-//Name, Date, Class Name, Purpose
 /*
  * Name: Ivan Suarez
  * Date: 2/11/2018
@@ -7,7 +6,6 @@
  */
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -21,11 +19,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/**
- * Created by My on 2/11/2018.
- */
 public class CalculatorFrame extends JFrame {
-    private JPanel panel;
+    private JPanel displayPanel;
+    private JPanel buttonPanel;
     private JLabel workingLabel;
     private JTextField textField;
     private JButton plusButton;
@@ -44,16 +40,17 @@ public class CalculatorFrame extends JFrame {
     private JMenuItem exit;
     private JMenuItem about;
 
-    //test change
-    private static final int FRAME_WIDTH = 500;
-    private static final int FRAME_HEIGHT = 500;
+    private static final int FRAME_WIDTH = 250;
+    private static final int FRAME_HEIGHT = 200;
     private static final int FIELD_LENGTH = 10;
 
     private CalculatorModel calcModel;
     private ActionListener mouseListener;
     private KeyListener keyListener;
 
-
+    /**
+     * The gui of the application
+     */
     public CalculatorFrame(){
         calcModel = new CalculatorModel(this);
         buildMenu();
@@ -63,14 +60,14 @@ public class CalculatorFrame extends JFrame {
     }
 
     /**
-     * Creates a mouse listener for buttons in this class
+     * Creates a mouse listener for all buttons in this class
      */
     private void addClickListeners(){
         mouseListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 calcModel.handleAction(e.getActionCommand());
-                panel.requestFocus();
+                displayPanel.requestFocus();
             }
         };
 
@@ -82,8 +79,13 @@ public class CalculatorFrame extends JFrame {
         clearButton.addActionListener(mouseListener);
         ceButton.addActionListener(mouseListener);
         equalButton.addActionListener(mouseListener);
+        exit.addActionListener(mouseListener);
+        about.addActionListener(mouseListener);
     }
 
+    /**
+     * Creates a key listener and attaches them to all panels in this class
+     */
     private void addKeyListeners(){
         keyListener = new KeyListener()
         {
@@ -108,9 +110,13 @@ public class CalculatorFrame extends JFrame {
             }
         };
 
-        panel.addKeyListener(keyListener);
+        displayPanel.addKeyListener(keyListener);
+        buttonPanel.addKeyListener(keyListener);
     }
 
+    /**
+     * builds the menu to add to the frame later
+     */
     private void buildMenu(){
         menuBar = new JMenuBar();
         app = new JMenu("App");
@@ -123,6 +129,9 @@ public class CalculatorFrame extends JFrame {
         menuBar.add(help);
     }
 
+    /**
+     * instantiates all buttons and sets them to not focusable
+     */
     private  void buildButtons(){
         plusButton = new JButton("+");
         minusButton = new JButton("-");
@@ -144,29 +153,39 @@ public class CalculatorFrame extends JFrame {
         equalButton.setFocusPainted(false);
     }
 
+    /**
+     * Adds all elements to panels
+     */
     private void buildPanel(){
         textField = new JTextField(FIELD_LENGTH);
-        panel = new JPanel();
+        displayPanel = new JPanel();
+        buttonPanel = new JPanel();
         workingLabel = new JLabel("");
 
         //the keylistener will handle input, don't edit textfield directly
         textField.setEditable(false);
         textField.setText("0");
+        //buttonPanel.setLayout(new GroupLayout());
         addClickListeners();
         addKeyListeners();
 
-        panel.add(workingLabel);
-        panel.add(textField);
-        panel.add(plusButton);
-        panel.add(minusButton);
-        panel.add(multiplyButton);
-        panel.add(divideButton);
-        panel.add(modButton);
-        panel.add(ceButton);
-        panel.add(clearButton);
-        panel.add(equalButton);
+        displayPanel.add(menuBar);
+        displayPanel.add(workingLabel, BorderLayout.NORTH);
+        displayPanel.add(textField, BorderLayout.NORTH);
+        buttonPanel.add(plusButton);
+        buttonPanel.add(minusButton);
+        buttonPanel.add(multiplyButton);
+        buttonPanel.add(divideButton);
+        buttonPanel.add(modButton);
+        buttonPanel.add(ceButton);
+        buttonPanel.add(clearButton);
+        buttonPanel.add(equalButton);
+        //displayPanel.add(new JButton("test"), BorderLayout.CENTER);
     }
 
+    /**
+     * Adds panels to frame and changes frame to appropriate settings
+     */
     private void buildFrame(){
         setLayout(new BorderLayout());
         setTitle("Calculator");
@@ -174,8 +193,9 @@ public class CalculatorFrame extends JFrame {
         setJMenuBar(menuBar);
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setVisible(true);
-        add(panel);
-        panel.requestFocus();
+        add(displayPanel, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.CENTER);
+        displayPanel.requestFocus();
     }
 
     public String getTextField()

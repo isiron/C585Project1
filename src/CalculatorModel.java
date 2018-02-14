@@ -1,8 +1,11 @@
+/*
+ * Name: Ivan Suarez
+ * Date: 2/12/2018
+ * Class name: CalculatorModel.java
+ * Purpose: Handling input and and updating the labels
+ */
 import javax.swing.JOptionPane;
 
-/**
- * Created by My on 2/12/2018.
- */
 public class CalculatorModel {
 
     private static final int MODE_NORM = 0;
@@ -18,14 +21,26 @@ public class CalculatorModel {
     private int currentMode;
     private int input;
 
+    /**
+     * Handler of input and updater of the gui
+     */
     public CalculatorModel(CalculatorFrame cFrame){
         calc = new Calculator();
         this.cFrame = cFrame;
     }
 
+    /**
+     * Checks the input from the keyboard and button and send it to the appropriate action
+     */
     public void handleAction(String action)
     {
         switch (action){
+            case "Exit":
+                exitActionPerformed();
+                break;
+            case "About":
+                aboutActionPerformed();
+                break;
             case "-":
                 updateLabel(action);
                 currentMode = MODE_MINUS;
@@ -69,6 +84,9 @@ public class CalculatorModel {
         }
     }
 
+    /**
+     * Checks alpha numeric characters that weren't a function, and not an int it will be ignored
+     */
     private void inputToTextBox(String numberToParse){
         //try to parse an int, if fail just ignore it, wasn't valid input
         try {
@@ -86,6 +104,9 @@ public class CalculatorModel {
         }
     }
 
+    /**
+     * Removes the characters to the right of the string, unless it is already a single character, then it's set to 0
+     */
     private void deleteTrailingChar(){
         //if not already 0 or empty
         if (!cFrame.getTextField().equals("") || !cFrame.getTextField().equals("0")) {
@@ -101,7 +122,9 @@ public class CalculatorModel {
         }
     }
 
-    //takes a current stored value and does appropriate math on it depending on mode using the value in the textField
+    /*
+     *takes a current stored value and does appropriate math on it depending on mode using the value in the textField
+     */
     private void calculate(){
         try {
             input = Integer.parseInt(cFrame.getTextField());
@@ -133,6 +156,9 @@ public class CalculatorModel {
         }
     }
 
+    /**
+     * Updates label based on given mode, sent as a string
+     */
     private void updateLabel(String mode){
         //if label is empty then replace it, else work with value already stored
         if(cFrame.getWorkingLabel().equals("")) {
@@ -147,17 +173,35 @@ public class CalculatorModel {
             cFrame.setTextField("0");
         }
         else{
-            //if say it is 6 + [6] when you hit - the mode with change,
             calculate();
             cFrame.setWorkingLabel(calc.getValue() + " " + mode + " ");
             cFrame.setTextField("0");
         }
     }
 
+    /**
+     * reinitializes working values
+     */
     private void reset(){
         currentMode = MODE_NORM;
         calc.resetValue();
         cFrame.setWorkingLabel("");
         cFrame.setTextField("" + calc.getValue());
+    }
+
+    /**
+     * Closes app
+     */
+    private void exitActionPerformed()
+    {
+        cFrame.dispose();
+    }
+
+    /*
+     * Shows an about message
+     */
+    private void aboutActionPerformed()
+    {
+        JOptionPane.showMessageDialog(cFrame, "Easy Calc by Ivan Suarez");
     }
 }
